@@ -2,8 +2,9 @@ class HeatSource extends GameObject
 {
   ArrayList<Ellipse> dancingFlames;
   int numFlames;
-  float amplitude;
-  float radius;
+  float baseFlameDistance;
+  float flameDistance;
+  float incrementer;
   
   HeatSource(PVector position, float w, float h, color c, int numFlames)
   {
@@ -11,27 +12,31 @@ class HeatSource extends GameObject
     dancingFlames = new ArrayList<Ellipse>();
     this.numFlames = numFlames;
     angle = 0;
-    amplitude = 100;
-    radius = 50;
+    baseFlameDistance = 50;
+    flameDistance = baseFlameDistance;
+    incrementer = 0;
     
     for(int i = 0; i < numFlames; ++i)
     {
-      dancingFlames.add(new Ellipse(new PVector(), 5, 5, color(255)));
-      dancingFlames.get(i).angle = radians(i * (degrees(TWO_PI) / numFlames));
-      //println(dancingFlames.get(i).angle);
-      dancingFlames.get(i).position.x = position.x + cos(dancingFlames.get(i).angle) * radius;
-      dancingFlames.get(i).position.y = position.y + -sin(dancingFlames.get(i).angle) * radius;
+      dancingFlames.add(new Ellipse(new PVector(), 5, 5, color(255, 0, 0)));
+      dancingFlames.get(i).angle = i * (TWO_PI / numFlames);
+      dancingFlames.get(i).range = 5;
+      dancingFlames.get(i).position.x = position.x + (flameDistance * cos(dancingFlames.get(i).angle));
+      dancingFlames.get(i).position.y = position.y + (flameDistance * -sin(dancingFlames.get(i).angle));
     }
   }
   
   void update()
-  {        
+  {
     for(int i = 0; i < dancingFlames.size(); ++i)
     {
-      dancingFlames.get(i).position.x = position.x + (amplitude * (cos(dancingFlames.get(i).angle) * cos(radius)));
-      dancingFlames.get(i).position.y = position.y + (amplitude * (-sin(dancingFlames.get(i).angle) * -sin(radius)));
+      flameDistance += cos(incrementer) * dancingFlames.get(i).range;
       
-      radius += .01;
+      dancingFlames.get(i).position.x = position.x + (flameDistance * cos(dancingFlames.get(i).angle));
+      dancingFlames.get(i).position.y = position.y + (flameDistance * -sin(dancingFlames.get(i).angle));
+      
+      incrementer += .01;
+      flameDistance = baseFlameDistance;
     }
   }
   
