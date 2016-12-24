@@ -2,10 +2,8 @@ class HeatSource extends GameObject
 {
   ArrayList<Ellipse> dancingFlames;
   int numFlames;
-  float angleInc;
   float amplitude;
   float radius;
-  float speed;
   
   HeatSource(PVector position, float w, float h, color c, int numFlames)
   {
@@ -13,44 +11,27 @@ class HeatSource extends GameObject
     dancingFlames = new ArrayList<Ellipse>();
     this.numFlames = numFlames;
     angle = 0;
-    angleInc = 0.05;
-    amplitude = 50;
+    amplitude = 100;
     radius = 50;
-    speed = 0;
-    
-//    dancingFlames.add(new Ellipse(new PVector(0, 0), 5, 5, color(255)));
-//    dancingFlames.get(0).angle = radians(45);
-//    dancingFlames.get(0).position.x = position.x + (cos(dancingFlames.get(0).angle) * radius);
-//    dancingFlames.get(0).position.y = position.y + (-sin(dancingFlames.get(0).angle) * radius);
     
     for(int i = 0; i < numFlames; ++i)
     {
       dancingFlames.add(new Ellipse(new PVector(), 5, 5, color(255)));
-      dancingFlames.get(i).angle = i * radians(90);
+      dancingFlames.get(i).angle = radians(i * (degrees(TWO_PI) / numFlames));
+      //println(dancingFlames.get(i).angle);
       dancingFlames.get(i).position.x = position.x + cos(dancingFlames.get(i).angle) * radius;
       dancingFlames.get(i).position.y = position.y + -sin(dancingFlames.get(i).angle) * radius;
-      //dancingFlames.get(i).position.x = position.x + cos((degrees(TWO_PI) / numFlames) * i) * radius;
-      //dancingFlames.get(i).position.y = position.y + -sin((degrees(TWO_PI) / numFlames) * i) * radius;
     }
   }
   
   void update()
-  {    
-//    dancingFlames.get(0).position.x = position.x + (cos(dancingFlames.get(0).angle) * radius);
-//    dancingFlames.get(0).position.y = position.y + (-sin(dancingFlames.get(0).angle) * radius);
-    
-    //radius += 1;
-    
-//    println(dancingFlames.get(0).position.x);
-//    println(dancingFlames.get(0).position.y);
-//    println(dancingFlames.get(0).angle);
-    
+  {        
     for(int i = 0; i < dancingFlames.size(); ++i)
     {
-      dancingFlames.get(i).position.x = position.x + (amplitude * cos(dancingFlames.get(i).angle));
-      dancingFlames.get(i).position.y = position.y + (amplitude * -sin(dancingFlames.get(i).angle));
+      dancingFlames.get(i).position.x = position.x + (amplitude * (cos(dancingFlames.get(i).angle) * cos(radius)));
+      dancingFlames.get(i).position.y = position.y + (amplitude * (-sin(dancingFlames.get(i).angle) * -sin(radius)));
       
-      dancingFlames.get(i).angle += angleInc;
+      radius += .01;
     }
   }
   
