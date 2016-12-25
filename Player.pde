@@ -12,7 +12,7 @@ class Player extends GameObject
   
   void render()
   {
-    fill(c);
-    ellipse(position.x, position.y, w, h);
+    //fill(c);
+    //ellipse(position.x, position.y, w, h);
   }
 }
