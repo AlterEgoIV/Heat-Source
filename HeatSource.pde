@@ -18,7 +18,7 @@ class HeatSource extends GameObject
     
     for(int i = 0; i < numFlames; ++i)
     {
-      dancingFlames.add(new Ellipse(new PVector(), 10, 10, color(255, 0, 0)));
+      dancingFlames.add(new Ellipse(new PVector(), 20, 20, color(255, 0, 0)));
       dancingFlames.get(i).angle = i * (TWO_PI / numFlames);
       dancingFlames.get(i).range = 10;
       dancingFlames.get(i).position.x = position.x + (flameDistance * cos(dancingFlames.get(i).angle));
@@ -36,6 +36,7 @@ class HeatSource extends GameObject
       
       dancingFlames.get(i).position.x = position.x + (flameDistance * cos(dancingFlames.get(i).angle));
       dancingFlames.get(i).position.y = position.y + (flameDistance * -sin(dancingFlames.get(i).angle));
+      dancingFlames.get(i).angle -= 0.01;
       
       incrementer += .02;
       flameDistance = baseFlameDistance;
@@ -44,8 +45,8 @@ class HeatSource extends GameObject
   
   void render()
   {
-    fill(c);
-    ellipse(position.x, position.y, w, h);
+    //fill(c);
+    //ellipse(position.x, position.y, w, h);
     
     for(Ellipse e : dancingFlames)
     {
